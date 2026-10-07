@@ -3,13 +3,6 @@ import { api } from "../api/client";
 import type { User } from "../api/types";
 import { Err, Loading } from "../components/Layout";
 
-const ROLE_COLORS: Record<string, string> = {
-  admin: "chip chip-rose",
-  doctor: "chip chip-teal",
-  insurance_reviewer: "chip chip-amber",
-  staff: "chip chip-slate",
-};
-
 export function AdminUsersPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
