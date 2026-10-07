@@ -194,20 +194,14 @@ export function CaseWorkspacePage() {
       {tab === "analysis" && (
         <div>
           <div style={{ display: "flex", gap: 10, marginBottom: 20, alignItems: "center" }}>
-            {canDecide ? (
-              <button
-                id="run-analysis-btn"
-                className="btn btn-primary"
-                disabled={busy === "analyze"}
-                onClick={() => id && run("analyze", () => api.analyze(id))}
-              >
-                {busy === "analyze" ? <><span className="spinner" /> Analyzing…</> : "🔬 Run AI Analysis"}
-              </button>
-            ) : (
-              <div className="alert alert-warning" style={{ fontSize: 12 }}>
-                Only doctors, reviewers, and admins can run analysis.
-              </div>
-            )}
+            <button
+              id="run-analysis-btn"
+              className="btn btn-primary"
+              disabled={busy === "analyze"}
+              onClick={() => id && run("analyze", () => api.analyze(id))}
+            >
+              {busy === "analyze" ? <><span className="spinner" /> Analyzing…</> : "Run AI Analysis"}
+            </button>
           </div>
 
           <div className="alert alert-warning mb-4" style={{ fontSize: 12 }}>

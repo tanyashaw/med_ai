@@ -190,25 +190,7 @@ export function AdminUsersPage() {
         </div>
       )}
 
-      {/* Role guide */}
-      <div className="card mt-6" style={{ padding: "16px 20px" }}>
-        <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 10 }}>Role Permissions</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px,1fr))", gap: 10 }}>
-          {[
-            { role: "admin", perms: "Full access: users, audit, delete, all actions" },
-            { role: "doctor", perms: "Run analysis, review, decide cases" },
-            { role: "insurance_reviewer", perms: "Run analysis, review, decide cases" },
-            { role: "staff", perms: "Create cases, upload documents, add notes" },
-          ].map(({ role, perms }) => (
-            <div key={role} style={{ fontSize: 12 }}>
-              <span className={ROLE_COLORS[role] || "chip chip-slate"} style={{ display: "inline-block", marginBottom: 4 }}>
-                {role.replace("_", " ")}
-              </span>
-              <p style={{ color: "var(--text-muted)", lineHeight: 1.4 }}>{perms}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+
     </div>
   );
 }

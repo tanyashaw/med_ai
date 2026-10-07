@@ -26,15 +26,28 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   if (!res.ok) {
     let detail = res.statusText;
     try {
-      const data = await res.json();
-      detail = data.detail || JSON.stringify(data);
+      const contentType = res.headers.get("content-type") || "";
+      if (contentType.includes("application/json")) {
+        const data = await res.json();
+        detail = data.detail || JSON.stringify(data);
+      }
     } catch {
       /* ignore */
     }
     throw new Error(typeof detail === "string" ? detail : JSON.stringify(detail));
   }
   if (res.status === 204) return undefined as T;
-  return res.json() as Promise<T>;
+
+  const contentType = res.headers.get("content-type") || "";
+  if (!contentType.includes("application/json")) {
+    throw new Error("Unable to connect to backend API server. If deployed on Vercel, check VITE_API_URL setting.");
+  }
+
+  try {
+    return (await res.json()) as T;
+  } catch {
+    throw new Error("Invalid JSON response from server.");
+  }
 }
 
 export const api = {
