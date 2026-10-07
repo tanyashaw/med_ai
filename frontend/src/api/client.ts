@@ -11,8 +11,9 @@ export function setToken(token: string) {
 export function clearToken() {
   localStorage.removeItem(TOKEN_KEY);
 }
-
-const BASE_URL = import.meta.env.VITE_API_URL || "";
+export const BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? "https://med-ai-backend-3tlh.onrender.com" : "");
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const headers = new Headers(options.headers);
@@ -68,7 +69,7 @@ export const api = {
   createUser: (payload: object) => request("/api/users", { method: "POST", body: JSON.stringify(payload) }),
   updateUser: (id: string, payload: object) =>
     request(`/api/users/${id}`, { method: "PATCH", body: JSON.stringify(payload) }),
-  cases: () => request("/api/cases"),
+  cases: (query?: string) => request(`/api/cases${query ? `?${query}` : ""}`),
   createCase: (payload: object) => request("/api/cases", { method: "POST", body: JSON.stringify(payload) }),
   getCase: (id: string) => request(`/api/cases/${id}`),
   updateCase: (id: string, payload: object) =>
@@ -88,6 +89,6 @@ export const api = {
     request(`/api/cases/${id}/review`, { method: "POST", body: JSON.stringify({ body }) }),
   decide: (id: string, decision: string, comments: string) =>
     request(`/api/cases/${id}/decide`, { method: "POST", body: JSON.stringify({ decision, comments }) }),
-  audit: () => request("/api/audit"),
+  audit: (query?: string) => request(`/api/audit${query ? `?${query}` : ""}`),
   analytics: () => request("/api/analytics"),
 };

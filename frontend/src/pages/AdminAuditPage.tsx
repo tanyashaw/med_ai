@@ -43,12 +43,9 @@ export function AdminAuditPage() {
     if (dateTo) params.set("date_to", dateTo);
     params.set("limit", "200");
 
-    fetch(`/api/audit?${params}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("medai_token") || ""}` },
-    })
-      .then((r) => r.json())
-      .then((d) => setRows(Array.isArray(d) ? d : []))
-      .catch((e) => setError(e.message))
+    api.audit(params.toString())
+      .then((d) => setRows(Array.isArray(d) ? (d as AuditLog[]) : []))
+      .catch((e) => setError(e instanceof Error ? e.message : "Failed to load audit logs"))
       .finally(() => setLoading(false));
   }
 

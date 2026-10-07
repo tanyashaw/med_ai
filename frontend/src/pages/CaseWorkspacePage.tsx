@@ -1,6 +1,6 @@
 import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { api } from "../api/client";
+import { api, BASE_URL } from "../api/client";
 import type { Analysis, Case, Document } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
 import { ConfBar, Err, Loading, StatusBadge } from "../components/Layout";
@@ -70,7 +70,7 @@ export function CaseWorkspacePage() {
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             {item.latest_report && id && (
               <a
-                href={`/api/cases/${id}/report/pdf?token=${localStorage.getItem("medai_token") || ""}`}
+                href={`${BASE_URL}/api/cases/${id}/report/pdf?token=${localStorage.getItem("medai_token") || ""}`}
                 className="btn btn-primary btn-sm"
                 download={`report_${id}.pdf`}
               >
@@ -329,7 +329,7 @@ export function CaseWorkspacePage() {
                 {id && (
                   <a
                     id="download-report-btn"
-                    href={`/api/cases/${id}/report/pdf?token=${localStorage.getItem("medai_token") || ""}`}
+                    href={`${BASE_URL}/api/cases/${id}/report/pdf?token=${localStorage.getItem("medai_token") || ""}`}
                     className="btn btn-primary"
                     download={`report_${id}.pdf`}
                     style={{ marginLeft: "auto" }}
@@ -525,7 +525,7 @@ function DocCard({ doc }: { doc: Document }) {
             <span className="chip chip-teal">{typeLabel[doc.doc_type] || doc.doc_type}</span>
           )}
           <a
-            href={`/api/documents/${doc.id}/file?token=${localStorage.getItem("medai_token") || ""}`}
+            href={`${BASE_URL}/api/documents/${doc.id}/file?token=${localStorage.getItem("medai_token") || ""}`}
             className="btn btn-ghost btn-sm"
             download={doc.filename}
           >

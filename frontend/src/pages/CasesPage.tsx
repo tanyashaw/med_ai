@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { api } from "../api/client";
 import type { Case } from "../api/types";
 import { Err, Loading, StatusBadge } from "../components/Layout";
 
@@ -17,14 +18,9 @@ export function CasesPage() {
     const params = new URLSearchParams();
     if (search) params.set("search", search);
     if (status) params.set("status", status);
-    fetch(`/api/cases?${params}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("medai_token") || ""}`,
-      },
-    })
-      .then((r) => r.json())
-      .then((d) => { setCases(d); setLoading(false); })
-      .catch((e) => { setError(e.message); setLoading(false); });
+    api.cases(params.toString())
+      .then((d) => { setCases(Array.isArray(d) ? (d as Case[]) : []); setLoading(false); })
+      .catch((e) => { setError(e instanceof Error ? e.message : "Failed to load cases"); setLoading(false); });
   }, [search, status]);
 
   function setFilter(key: string, val: string) {
